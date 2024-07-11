@@ -17,6 +17,9 @@ export default function Home() {
   const [votesAgainst, setVotesAgainst] = useState<number>(0);
   const [endTime, setEndTime] = useState<number>(0);
 
+  const [vote, setVote] = useState<boolean>(false);
+  const [result, setResult] = useState<string>("");
+
   const handleClick = async () => {
     if (window.ethereum !== "undefined") {
       const accounts = await ethereum.request({
@@ -52,6 +55,21 @@ export default function Home() {
     setShowProposal(true);
   };
 
+  const handleVote = () => {
+    try {
+      instance.vote(0, true).then((res: any) => {
+        console.log("result", res);
+        setResult("Vote submitted successfully");
+      });
+      // console.log("tx", tx);
+      // await tx.wait(); // wait for transaction to be mined
+      // console.log("tx", tx);
+    } catch (error) {
+      console.error(error);
+      setResult("Failed to submit vote");
+    }
+  };
+
   return (
     <div className="w-screen h-screen flex flex-col gap-4 items-center justify-center">
       <p># of proposals: {proposals}</p>
@@ -63,9 +81,9 @@ export default function Home() {
       </button>
 
       {/* Proposal query by id */}
-      <div className="w-[60%] flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg border">
+      <div className="w-[60%] flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg border border-slate-400">
         <input
-          className="p-2 focus:outline-none border rounded-lg focus:ring-1 focus:ring-gray-500"
+          className="p-2 focus:outline-none border border-slate-300 rounded-lg focus:ring-1 focus:ring-slate-500"
           type="text"
           value={proposalId}
           onChange={(e) => setProposalId(e.target.value)}
@@ -73,7 +91,7 @@ export default function Home() {
           min="0"
         />
         <button
-          className="py-1 px-4 bg-black text-white w-fit rounded-md hover:text-gray-400"
+          className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
           onClick={handleQuery}
         >
           Query
@@ -81,7 +99,7 @@ export default function Home() {
       </div>
 
       {showProposal && (
-        <div className="w-[60%] flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg border">
+        <div className="w-[60%] flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg border border-slate-400">
           <div className="flex gap-2">
             <p className="font-bold">Proposal title:</p>
             <p>{title}</p>
@@ -104,6 +122,46 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* Voting Section */}
+      <div className="w-[60%] flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg border border-slate-400">
+        <h2>Vote on Proposal</h2>
+        <input
+          className="p-2 focus:outline-none border border-slate-300 rounded-lg focus:ring-1 focus:ring-slate-500"
+          type="text"
+          value={proposalId}
+          onChange={(e) => setProposalId(e.target.value)}
+          placeholder="Enter the proposal id..."
+          min="0"
+        />
+        <div>
+          <label>
+            <input
+              type="radio"
+              value="true"
+              checked={vote === true}
+              onChange={() => setVote(true)}
+            />
+            Vote For
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="false"
+              checked={vote === false}
+              onChange={() => setVote(false)}
+            />
+            Vote Against
+          </label>
+        </div>
+        <button
+          className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
+          onClick={handleVote}
+        >
+          Submit Vote
+        </button>
+        {result && <p>{result}</p>}
+      </div>
     </div>
   );
 }

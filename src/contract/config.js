@@ -1,6 +1,11 @@
-export const contractAddress = "0xF30068791c8A43204E6f5B3896AfF6F2748C29dF";
+export const contractAddress = "0x4eD303fb51Bdb7763Dc6AC459197cBa7cc833132";
 
 export const contractABI = [
+  {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
   {
     inputs: [
       {
@@ -15,29 +20,6 @@ export const contractABI = [
       },
     ],
     name: "createProposal",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_proposalId",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "_support",
-        type: "bool",
-      },
-    ],
-    name: "vote",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -92,6 +74,24 @@ export const contractABI = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_proposalId",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "_support",
+        type: "bool",
+      },
+    ],
+    name: "vote",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];

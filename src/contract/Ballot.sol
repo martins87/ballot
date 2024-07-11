@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.8.0;
+pragma solidity >= 0.8.0;
 
 contract Ballot {
     struct Proposal {
@@ -16,39 +16,24 @@ contract Ballot {
     mapping(uint => Proposal) proposals;
     mapping(uint => mapping(address => bool)) votes;
 
-    constructor() {
+    constructor () {
         proposalCount = 0;
     }
 
-    function createProposal(
-        string memory _title,
-        string memory _description
-    ) public {
+    function createProposal(string memory _title, string memory _description) public {
         proposals[proposalCount] = Proposal(
             proposalCount,
             _title,
             _description,
             0,
             0,
-            block.timestamp + 1 minutes,
+            block.timestamp + 1 weeks,
             false
         );
         proposalCount++;
     }
 
-    function viewProposal(
-        uint _proposalId
-    )
-        public
-        view
-        returns (
-            string memory title,
-            string memory description,
-            int votesFor,
-            int votesAgainst,
-            uint endtime
-        )
-    {
+    function viewProposal(uint _proposalId) public view returns (string memory title, string memory description, int votesFor, int votesAgainst, uint endtime) {
         Proposal storage proposal = proposals[_proposalId];
         title = proposal.title;
         description = proposal.description;
@@ -61,12 +46,9 @@ contract Ballot {
         // TODO validate input _proposalId
         Proposal storage proposal = proposals[_proposalId];
         require(block.timestamp < proposal.endtime, "Voting period has ended");
-        require(
-            votes[_proposalId][msg.sender] == false,
-            "User cannot vote twice on this proposal"
-        );
+        require(votes[_proposalId][msg.sender] == false, "User cannot vote twice on this proposal");
 
-        if (_support) {
+        if(_support) {
             proposal.votesFor++;
         } else {
             proposal.votesAgainst++;
@@ -76,5 +58,5 @@ contract Ballot {
     }
 
     // TODO create execute function
-    // Após o período de votação, a proposta deve ser encerrada e os votos não devem mais ser aceitos
+    // After voting period the proposal must be ended and votes cannot be accepted
 }
