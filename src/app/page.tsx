@@ -11,13 +11,15 @@ import Proposal from "@/components/Proposal";
 export default function Home() {
   const router = useRouter();
   const [connected, setConnected] = useState<boolean>(false);
-  const { setInstance, setAddress, setAbi } = useContract();
+  const { instance, setInstance } = useContract();
   const [ids, setIds] = useState([]);
 
   const [proposals, setProposals] = useState<number>(-1);
 
   const handleConnect = async () => {
     try {
+      console.log("[zustand] instance", instance);
+
       if (window.ethereum !== "undefined") {
         const accounts = await ethereum.request({
           method: "eth_requestAccounts",
@@ -28,6 +30,7 @@ export default function Home() {
       const signer = await provider.getSigner();
       const ballot = new Contract(contractAddress, contractABI, signer);
       setInstance(ballot);
+      console.log("[zustand] instance", instance);
 
       let proposalCount = await ballot.proposalCount();
       proposalCount = Number(proposalCount);

@@ -1,16 +1,36 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+
 import { useContract } from "@/store/contract";
-import { useState } from "react";
 
 const CreateProposal = () => {
+  const router = useRouter();
   const instance = useContract((state) => state.contract.instance);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const handleCreate = () => {
+  useEffect(() => {
+    if (!instance) {
+      redirect("/");
+    }
+  }, []);
+
+  const handleCreate = async () => {
     console.log("title", title);
     console.log("description", description);
+
+    instance
+      .createProposal(title, description)
+      .then((res: any) => {
+        console.log("Proposal created successfully", res);
+        router.push("/");
+      })
+      .catch((error: any) => {
+        console.error(error);
+        console.log("Error trying to create proposal");
+      });
   };
 
   return (
