@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 
-import { useContract } from "../store/contract";
+import { useContract } from "@/store/contract";
 
 type ProposalProps = {
   id: number;

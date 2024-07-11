@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { BrowserProvider, Contract } from "ethers";
 import { contractAddress, contractABI } from "../contract/config";
@@ -8,6 +9,7 @@ import { useContract } from "../store/contract";
 import Proposal from "@/components/Proposal";
 
 export default function Home() {
+  const router = useRouter();
   const [connected, setConnected] = useState<boolean>(false);
   const { setInstance, setAddress, setAbi } = useContract();
   const [ids, setIds] = useState([]);
@@ -55,6 +57,12 @@ export default function Home() {
       {connected && (
         <div className="w-screen h-screen flex flex-col gap-4 items-center justify-center">
           <p># of proposals: {proposals}</p>
+          <button
+            className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
+            onClick={() => router.push("/create")}
+          >
+            Create proposal
+          </button>
           {ids.map((id) => (
             <Proposal key={id} id={id} />
           ))}
