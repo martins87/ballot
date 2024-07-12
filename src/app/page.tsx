@@ -50,7 +50,7 @@ export default function Home() {
     <div className="w-screen h-screen flex flex-col gap-4 items-center justify-center">
       {!connected && (
         <button
-          className="flex bg-slate-300 p-2 border-zinc-800 rounded-sm"
+          className="flex py-3 px-6 bg-slate-200 hover:bg-slate-300 border border-slate-400 rounded-xl"
           onClick={handleConnect}
         >
           Connect wallet
