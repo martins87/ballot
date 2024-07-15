@@ -2,24 +2,47 @@
 
 import { useEffect, useState } from "react";
 import { redirect, useRouter } from "next/navigation";
+import { BrowserProvider, Contract } from "ethers";
 
 import { useContract } from "@/store/contract";
+import { contractAddress, contractABI } from "../../contract/config";
+import Link from "next/link";
 
 const CreateProposal = () => {
   const router = useRouter();
-  const instance = useContract((state) => state.contract.instance);
+  const defaultProviderInstance = useContract(
+    (state) => state.contract.defaultProviderInstance
+  );
+  const { instance, setInstance } = useContract();
+
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  useEffect(() => {
-    if (!instance) {
-      redirect("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const instantiate = async () => {
+  //     if (window.ethereum !== "undefined") {
+  //       const accounts = await ethereum.request({
+  //         method: "eth_requestAccounts",
+  //       });
+  //     }
+
+  //     const metamaskProvider = new BrowserProvider(window.ethereum);
+  //     const signer = await metamaskProvider.getSigner();
+  //     const metamaskInstance = new Contract(
+  //       contractAddress,
+  //       contractABI,
+  //       signer
+  //     );
+  //     setMetamaskProviderInstance(metamaskInstance);
+  //     console.log("[/create] ballotInstance", ballotInstance);
+  //     setInstance(ballotInstance);
+  //   };
+
+  //   instantiate();
+  // }, []);
 
   const handleCreate = async () => {
-    console.log("title", title);
-    console.log("description", description);
+    console.log("handleCreate - instance", instance);
 
     instance
       .createProposal(title, description)
@@ -63,6 +86,7 @@ const CreateProposal = () => {
           Create
         </button>
       </div>
+      <Link href="/">Back</Link>
     </div>
   );
 };

@@ -2,13 +2,20 @@ import { create } from "zustand";
 
 export const useContract = create((set) => ({
   contract: {
-    instance: null,
+    defaultProviderInstance: null,
+    metamaskProviderInstance: null,
     address: "",
     abi: null,
   },
 
-  setInstance: (instance) =>
-    set((state) => ({ contract: { ...state.contract, instance: instance } })),
+  setDefaultProviderInstance: (instance) =>
+    set((state) => ({
+      contract: { ...state.contract, defaultProviderInstance: instance },
+    })),
+  setMetamaskProviderInstance: (instance) =>
+    set((state) => ({
+      contract: { ...state.contract, metamaskProviderInstance: instance },
+    })),
   setAddress: (address) =>
     set((state) => ({ contract: { ...state.contract, address: address } })),
   setAbi: (abi) =>
