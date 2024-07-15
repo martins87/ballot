@@ -20,29 +20,6 @@ const CreateProposal = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  // useEffect(() => {
-  //   const instantiate = async () => {
-  //     if (window.ethereum !== "undefined") {
-  //       const accounts = await ethereum.request({
-  //         method: "eth_requestAccounts",
-  //       });
-  //     }
-
-  //     const metamaskProvider = new BrowserProvider(window.ethereum);
-  //     const signer = await metamaskProvider.getSigner();
-  //     const metamaskInstance = new Contract(
-  //       contractAddress,
-  //       contractABI,
-  //       signer
-  //     );
-  //     setMetamaskProviderInstance(metamaskInstance);
-  //     console.log("[/create] ballotInstance", ballotInstance);
-  //     setInstance(ballotInstance);
-  //   };
-
-  //   instantiate();
-  // }, []);
-
   const handleCreate = async () => {
     console.log("handleCreate - instance", instance);
 
@@ -76,46 +53,48 @@ const CreateProposal = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col gap-4 items-center justify-center">
-      <button
-        className="py-1 px-4 bg-slate-100 w-fit rounded-lg border border-slate-300 text-sm hover:bg-slate-200"
-        onClick={handleConnect}
-      >
-        Connect wallet
-      </button>
-      <p className="text-sm">
-        Supports writing to the following contract function information after
-        connecting to a wallet
-      </p>
-      <div className="w-[60%] flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg ">
-        <label>Title</label>
-        <input
-          className="p-2 focus:outline-none border border-slate-300 rounded-lg focus:ring-1 focus:ring-slate-500"
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter the proposal title..."
-          min="0"
-        />
-
-        <label>Description</label>
-        <input
-          className="p-2 focus:outline-none border border-slate-300 rounded-lg focus:ring-1 focus:ring-slate-500"
-          type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Enter the proposal description..."
-          min="0"
-        />
-
+    <div className="w-screen h-screen flex flex-col items-center justify-center">
+      <div className="flex flex-col gap-4 w-[60%]">
         <button
-          className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
-          onClick={handleCreate}
+          className="py-1 px-4 bg-slate-100 w-fit rounded-lg border border-slate-300 text-sm hover:bg-slate-200"
+          onClick={handleConnect}
         >
-          Create
+          Connect wallet
         </button>
+        <p className="text-sm">
+          Supports writing to the following contract function information after
+          connecting to a wallet
+        </p>
+        <div className="w-full flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg border border-slate-400">
+          <label>Title</label>
+          <input
+            className="p-2 focus:outline-none border border-slate-300 rounded-lg focus:ring-1 focus:ring-slate-500"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter the proposal title..."
+            min="0"
+          />
+
+          <label>Description</label>
+          <input
+            className="p-2 focus:outline-none border border-slate-300 rounded-lg focus:ring-1 focus:ring-slate-500"
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Enter the proposal description..."
+            min="0"
+          />
+
+          <button
+            className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
+            onClick={handleCreate}
+          >
+            Create
+          </button>
+        </div>
+        <Link href="/">Back</Link>
       </div>
-      <Link href="/">Back</Link>
     </div>
   );
 };

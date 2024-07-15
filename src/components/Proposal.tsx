@@ -18,7 +18,10 @@ const Proposal: FC<ProposalProps> = ({
   endTime,
 }) => {
   return (
-    <div className="w-[60%] flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg border border-slate-400">
+    <div className="w-full flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg border border-slate-300 hover:cursor-pointer hover:border-slate-400 hover:shadow-lg">
+      <div className="">
+        <p>#{id}</p>
+      </div>
       <div className="flex gap-2">
         <p className="font-bold">Proposal title:</p>
         <p>{title}</p>

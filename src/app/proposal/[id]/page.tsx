@@ -58,65 +58,64 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
     const metamaskInstance = new Contract(contractAddress, contractABI, signer);
     setMetamaskProviderInstance(metamaskInstance);
     setVotingInstance(metamaskInstance);
-    console.log("signer", signer);
-    console.log("metamaskInstance", metamaskInstance);
   };
 
   const handleVote = (support: boolean) => {
     votingInstance.vote(params.id, support).then((res: any) => {
-      // defaultProviderInstance.vote(0, support).then((res: any) => {
       console.log("result", res);
-      // setResult("Vote submitted successfully");
+      // TODO handle user feedback
     });
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col gap-6 items-center justify-center">
-      <button
-        className="py-1 px-4 bg-slate-100 w-fit rounded-lg border border-slate-300 text-sm hover:bg-slate-200"
-        onClick={handleConnect}
-      >
-        Connect wallet
-      </button>
-      <p className="text-sm">
-        Supports writing to the following contract function information after
-        connecting to a wallet
-      </p>
-      <div className="w-[60%] flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg border border-slate-400">
-        <div className="flex items-center gap-2">
-          <p className="font-bold">Proposal title:</p>
-          <p>{title}</p>
+    <div className="w-screen h-screen flex flex-col items-center justify-center">
+      <div className="flex flex-col gap-4 w-[60%]">
+        <button
+          className="py-1 px-4 bg-slate-100 w-fit rounded-lg border border-slate-300 text-sm hover:bg-slate-200"
+          onClick={handleConnect}
+        >
+          Connect wallet
+        </button>
+        <p className="text-sm">
+          Supports writing to the following contract function information after
+          connecting to a wallet
+        </p>
+        <div className="w-full flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg border border-slate-400">
+          <div className="flex items-center gap-2">
+            <p className="font-bold">Proposal title:</p>
+            <p>{title}</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <p className="font-bold">Proposal description:</p>
+            <p>{description}</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <p className="font-bold">Votes for:</p>
+            <p>{votesFor}</p>
+            <button
+              className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
+              onClick={() => handleVote(true)}
+            >
+              Vote
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <p className="font-bold">Votes against:</p>
+            <p>{votesAgainst}</p>
+            <button
+              className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
+              onClick={() => handleVote(false)}
+            >
+              Vote
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <p className="font-bold">Voting end time:</p>
+            <p>{endTime}</p>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <p className="font-bold">Proposal description:</p>
-          <p>{description}</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <p className="font-bold">Votes for:</p>
-          <p>{votesFor}</p>
-          <button
-            className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
-            onClick={() => handleVote(true)}
-          >
-            Vote
-          </button>
-        </div>
-        <div className="flex items-center gap-2">
-          <p className="font-bold">Votes against:</p>
-          <p>{votesAgainst}</p>
-          <button
-            className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
-            onClick={() => handleVote(false)}
-          >
-            Vote
-          </button>
-        </div>
-        <div className="flex items-center gap-2">
-          <p className="font-bold">Voting end time:</p>
-          <p>{endTime}</p>
-        </div>
+        <Link href="/">Back</Link>
       </div>
-      <Link href="/">Back</Link>
     </div>
   );
 };
