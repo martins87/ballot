@@ -80,7 +80,6 @@ export default function Home() {
   return (
     <div className="w-screen flex items-center">
       <div className="w-full flex flex-col gap-4 items-center justify-center">
-        <p># of proposals: {count}</p>
         <button
           className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
           onClick={handleCreate}

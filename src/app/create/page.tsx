@@ -14,7 +14,9 @@ const CreateProposal = () => {
     (state) => state.contract.defaultProviderInstance
   );
   const { instance, setInstance } = useContract();
-
+  const { metamaskProviderInstance, setMetamaskProviderInstance } =
+    useContract();
+  const [creatingInstance, setCreatingInstance] = useState<any>(null);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
@@ -44,7 +46,7 @@ const CreateProposal = () => {
   const handleCreate = async () => {
     console.log("handleCreate - instance", instance);
 
-    instance
+    creatingInstance
       .createProposal(title, description)
       .then((res: any) => {
         console.log("Proposal created successfully", res);
@@ -56,8 +58,35 @@ const CreateProposal = () => {
       });
   };
 
+  const handleConnect = async () => {
+    if (window.ethereum != undefined) {
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      console.log("accounts", accounts);
+    }
+
+    const metamaskProvider = new BrowserProvider(window.ethereum);
+    const signer = await metamaskProvider.getSigner();
+    const metamaskInstance = new Contract(contractAddress, contractABI, signer);
+    setMetamaskProviderInstance(metamaskInstance);
+    setCreatingInstance(metamaskInstance);
+    console.log("signer", signer);
+    console.log("metamaskInstance", metamaskInstance);
+  };
+
   return (
     <div className="w-screen h-screen flex flex-col gap-4 items-center justify-center">
+      <button
+        className="py-1 px-4 bg-slate-100 w-fit rounded-lg border border-slate-300 text-sm hover:bg-slate-200"
+        onClick={handleConnect}
+      >
+        Connect wallet
+      </button>
+      <p className="text-sm">
+        Supports writing to the following contract function information after
+        connecting to a wallet
+      </p>
       <div className="w-[60%] flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg ">
         <label>Title</label>
         <input
