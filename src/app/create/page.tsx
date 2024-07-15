@@ -17,6 +17,7 @@ const CreateProposal = () => {
   const { metamaskProviderInstance, setMetamaskProviderInstance } =
     useContract();
   const [creatingInstance, setCreatingInstance] = useState<any>(null);
+  const [account, setAccount] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
@@ -40,6 +41,7 @@ const CreateProposal = () => {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
+      setAccount(accounts[0]);
       console.log("accounts", accounts);
     }
 
@@ -52,6 +54,12 @@ const CreateProposal = () => {
     console.log("metamaskInstance", metamaskInstance);
   };
 
+  const shortAddress = () => {
+    return (
+      account.substring(0, 7) + "..." + account.substring(account.length - 5)
+    );
+  };
+
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center">
       <div className="flex flex-col gap-4 w-[60%]">
@@ -59,7 +67,9 @@ const CreateProposal = () => {
           className="py-1 px-4 bg-slate-100 w-fit rounded-lg border border-slate-300 text-sm hover:bg-slate-200"
           onClick={handleConnect}
         >
-          Connect wallet
+          {metamaskProviderInstance || creatingInstance
+            ? shortAddress()
+            : "Connect wallet"}
         </button>
         <p className="text-sm">
           Supports writing to the following contract function information after

@@ -23,6 +23,7 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
   const { metamaskProviderInstance, setMetamaskProviderInstance } =
     useContract();
   const [votingInstance, setVotingInstance] = useState<any>(null);
+  const [account, setAccount] = useState<string>("");
 
   useEffect(() => {
     console.log("metamaskProviderInstance", metamaskProviderInstance);
@@ -67,6 +68,12 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
     });
   };
 
+  const shortAddress = () => {
+    return (
+      account.substring(0, 7) + "..." + account.substring(account.length - 5)
+    );
+  };
+
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center">
       <div className="flex flex-col gap-4 w-[60%]">
@@ -74,7 +81,9 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
           className="py-1 px-4 bg-slate-100 w-fit rounded-lg border border-slate-300 text-sm hover:bg-slate-200"
           onClick={handleConnect}
         >
-          Connect wallet
+          {metamaskProviderInstance || votingInstance
+            ? shortAddress()
+            : "Connect wallet"}
         </button>
         <p className="text-sm">
           Supports writing to the following contract function information after

@@ -71,7 +71,7 @@ export default function Home() {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
-      <div className="flex flex-col gap-4 w-[60%]">
+      <div className="flex flex-col gap-4 w-[60%] my-10">
         <div className="grid grid-cols-2 gap-4">
           {proposals.map(
             ({ id, title, description, votesFor, votesAgainst, endTime }) => (
