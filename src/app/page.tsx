@@ -72,25 +72,28 @@ export default function Home() {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="flex flex-col gap-4 w-[60%] my-10">
+        <p># of proposals: {count}</p>
         <div className="grid grid-cols-2 gap-4">
-          {proposals.map(
-            ({ id, title, description, votesFor, votesAgainst, endTime }) => (
-              <div
-                className="w-full flex items-center justify-center"
-                key={id}
-                onClick={() => handleClick(id)}
-              >
-                <Proposal
-                  id={id}
-                  title={title}
-                  description={description}
-                  votesFor={votesFor}
-                  votesAgainst={votesAgainst}
-                  endTime={endTime}
-                />
-              </div>
-            )
-          )}
+          {proposals
+            .slice(-count)
+            .map(
+              ({ id, title, description, votesFor, votesAgainst, endTime }) => (
+                <div
+                  className="w-full flex items-center justify-center"
+                  key={id}
+                  onClick={() => handleClick(id)}
+                >
+                  <Proposal
+                    id={id}
+                    title={title}
+                    description={description}
+                    votesFor={votesFor}
+                    votesAgainst={votesAgainst}
+                    endTime={endTime}
+                  />
+                </div>
+              )
+            )}
         </div>
         <button
           className="py-1 px-4 bg-black text-white w-full rounded-lg hover:text-gray-200"
