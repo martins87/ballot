@@ -6,6 +6,7 @@ import { BrowserProvider, Contract } from "ethers";
 
 import { useContract } from "@/store/contract";
 import { contractAddress, contractABI } from "../../../contract/config";
+import VotingButton from "@/components/VotingButton";
 
 type ProposalPageProps = {
   params: any;
@@ -26,24 +27,20 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
   const [account, setAccount] = useState<string>("");
 
   useEffect(() => {
-    console.log("metamaskProviderInstance", metamaskProviderInstance);
-    const getProposal = async () => {
-      let proposal = await defaultProviderInstance.viewProposal(params.id);
+    defaultProviderInstance.viewProposal(params.id).then((proposal: any) => {
       let proposalValues = Object.values(proposal);
-      let proposalTitle = String(proposalValues[0]);
-      let proposalDescription = String(proposalValues[1]);
-      let proposalVotesFor = Number(proposalValues[2]);
-      let proposalVotesAgainst = Number(proposalValues[3]);
-      let proposalEndTime = Number(proposalValues[4]);
+      let title = String(proposalValues[0]);
+      let description = String(proposalValues[1]);
+      let votesFor = Number(proposalValues[2]);
+      let votesAgainst = Number(proposalValues[3]);
+      let endTime = Number(proposalValues[4]);
 
-      setTitle(proposalTitle);
-      setDescription(proposalDescription);
-      setVotesFor(proposalVotesFor);
-      setVotesAgainst(proposalVotesAgainst);
-      setEndTime(proposalEndTime);
-    };
-
-    getProposal();
+      setTitle(title);
+      setDescription(description);
+      setVotesFor(votesFor);
+      setVotesAgainst(votesAgainst);
+      setEndTime(endTime);
+    });
   }, []);
 
   const handleConnect = async () => {
@@ -51,7 +48,7 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
-      console.log("accounts", accounts);
+      setAccount(accounts[0]);
     }
 
     const metamaskProvider = new BrowserProvider(window.ethereum);
@@ -101,22 +98,18 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
           <div className="flex items-center gap-2">
             <p className="font-bold">Votes for:</p>
             <p>{votesFor}</p>
-            <button
-              className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
+            <VotingButton
+              disabled={!(metamaskProviderInstance || votingInstance)}
               onClick={() => handleVote(true)}
-            >
-              Vote
-            </button>
+            />
           </div>
           <div className="flex items-center gap-2">
             <p className="font-bold">Votes against:</p>
             <p>{votesAgainst}</p>
-            <button
-              className="py-1 px-4 bg-black text-white w-fit rounded-lg hover:text-gray-400"
+            <VotingButton
+              disabled={!(metamaskProviderInstance || votingInstance)}
               onClick={() => handleVote(false)}
-            >
-              Vote
-            </button>
+            />
           </div>
           <div className="flex items-center gap-2">
             <p className="font-bold">Voting end time:</p>

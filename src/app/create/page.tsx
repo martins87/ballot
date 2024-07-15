@@ -10,10 +10,6 @@ import Link from "next/link";
 
 const CreateProposal = () => {
   const router = useRouter();
-  const defaultProviderInstance = useContract(
-    (state) => state.contract.defaultProviderInstance
-  );
-  const { instance, setInstance } = useContract();
   const { metamaskProviderInstance, setMetamaskProviderInstance } =
     useContract();
   const [creatingInstance, setCreatingInstance] = useState<any>(null);
@@ -22,8 +18,6 @@ const CreateProposal = () => {
   const [description, setDescription] = useState<string>("");
 
   const handleCreate = async () => {
-    console.log("handleCreate - instance", instance);
-
     creatingInstance
       .createProposal(title, description)
       .then((res: any) => {
@@ -42,7 +36,6 @@ const CreateProposal = () => {
         method: "eth_requestAccounts",
       });
       setAccount(accounts[0]);
-      console.log("accounts", accounts);
     }
 
     const metamaskProvider = new BrowserProvider(window.ethereum);
@@ -50,8 +43,6 @@ const CreateProposal = () => {
     const metamaskInstance = new Contract(contractAddress, contractABI, signer);
     setMetamaskProviderInstance(metamaskInstance);
     setCreatingInstance(metamaskInstance);
-    console.log("signer", signer);
-    console.log("metamaskInstance", metamaskInstance);
   };
 
   const shortAddress = () => {

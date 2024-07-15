@@ -19,9 +19,10 @@ type Proposal = {
 
 export default function Home() {
   const router = useRouter();
-  const { _, setDefaultProviderInstance } = useContract();
+  const { defaultProviderInstance, setDefaultProviderInstance } = useContract();
   const [count, setCount] = useState<number>(-1);
   const [proposals, setProposals] = useState<Proposal[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getProposals = async () => {
@@ -31,6 +32,7 @@ export default function Home() {
       let ballot = new Contract(contractAddress, contractABI, defaultProvider);
       setDefaultProviderInstance(ballot);
 
+      setLoading(true);
       ballot.proposalCount().then((c) => {
         setCount(Number(c));
 
@@ -55,6 +57,7 @@ export default function Home() {
             proposalsArr.push(p);
           });
         }
+        setLoading(false);
       });
     };
 
@@ -73,28 +76,38 @@ export default function Home() {
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="flex flex-col gap-4 w-[60%] my-10">
         <p># of proposals: {count}</p>
-        <div className="grid grid-cols-2 gap-4">
-          {proposals
-            .slice(-count)
-            .map(
-              ({ id, title, description, votesFor, votesAgainst, endTime }) => (
-                <div
-                  className="w-full flex items-center justify-center"
-                  key={id}
-                  onClick={() => handleClick(id)}
-                >
-                  <Proposal
-                    id={id}
-                    title={title}
-                    description={description}
-                    votesFor={votesFor}
-                    votesAgainst={votesAgainst}
-                    endTime={endTime}
-                  />
-                </div>
-              )
-            )}
-        </div>
+        {loading && <p>Loading proposals...</p>}
+        {!loading && (
+          <div className="grid grid-cols-2 gap-4">
+            {proposals
+              .slice(-count)
+              .map(
+                ({
+                  id,
+                  title,
+                  description,
+                  votesFor,
+                  votesAgainst,
+                  endTime,
+                }) => (
+                  <div
+                    className="w-full flex items-center justify-center"
+                    key={id}
+                    onClick={() => handleClick(id)}
+                  >
+                    <Proposal
+                      id={id}
+                      title={title}
+                      description={description}
+                      votesFor={votesFor}
+                      votesAgainst={votesAgainst}
+                      endTime={endTime}
+                    />
+                  </div>
+                )
+              )}
+          </div>
+        )}
         <button
           className="py-1 px-4 bg-black text-white w-full rounded-lg hover:text-gray-200"
           onClick={handleCreate}
