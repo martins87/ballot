@@ -6,6 +6,7 @@ export const useContract = create((set) => ({
     metamaskProviderInstance: null,
     address: "",
     abi: null,
+    zProposals: [],
   },
 
   setDefaultProviderInstance: (instance) =>
@@ -20,4 +21,6 @@ export const useContract = create((set) => ({
     set((state) => ({ contract: { ...state.contract, address: address } })),
   setAbi: (abi) =>
     set((state) => ({ contract: { ...state.contract, abi: abi } })),
+  setZProposals: (proposals) =>
+    set((state) => ({ ...state.contract, proposals })),
 }));

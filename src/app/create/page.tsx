@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { BrowserProvider, Contract } from "ethers";
 
 import { useContract } from "@/store/contract";
