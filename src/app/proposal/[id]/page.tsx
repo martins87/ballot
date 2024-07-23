@@ -7,6 +7,7 @@ import { BrowserProvider, Contract } from "ethers";
 import { useContract } from "@/store/contract";
 import { contractAddress, contractABI } from "../../../contract/config";
 import VotingButton from "@/components/VotingButton";
+import { shortAddress } from "@/utils/lib";
 
 type ProposalPageProps = {
   params: any;
@@ -54,8 +55,8 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
     const metamaskProvider = new BrowserProvider(window.ethereum);
     const signer = await metamaskProvider.getSigner();
     const metamaskInstance = new Contract(contractAddress, contractABI, signer);
-    setMetamaskProviderInstance(metamaskInstance);
     setVotingInstance(metamaskInstance);
+    setMetamaskProviderInstance(metamaskInstance);
   };
 
   const handleVote = (support: boolean) => {
@@ -63,12 +64,6 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
       console.log("result", res);
       // TODO handle user feedback
     });
-  };
-
-  const shortAddress = () => {
-    return (
-      account.substring(0, 7) + "..." + account.substring(account.length - 5)
-    );
   };
 
   return (
@@ -79,7 +74,7 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
           onClick={handleConnect}
         >
           {metamaskProviderInstance || votingInstance
-            ? shortAddress()
+            ? shortAddress(account)
             : "Connect wallet"}
         </button>
         <p className="text-sm">

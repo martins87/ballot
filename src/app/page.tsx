@@ -7,9 +7,6 @@ import { Contract, getDefaultProvider } from "ethers";
 import { contractAddress, contractABI } from "../contract/config";
 import { useContract } from "../store/contract";
 import ProposalCard, { Proposal } from "@/components/ProposalCard";
-import ProposalWithId from "@/components/ProposalWithId";
-
-import mockedProposals from "../utils/mocked-proposals";
 
 export default function Home() {
   const router = useRouter();
