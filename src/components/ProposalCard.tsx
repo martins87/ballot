@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-type ProposalProps = {
+export type Proposal = {
   id: number;
   title: string;
   description: string;
@@ -9,7 +9,7 @@ type ProposalProps = {
   endTime: number;
 };
 
-const Proposal: FC<ProposalProps> = ({
+const ProposalCard: FC<Proposal> = ({
   id,
   title,
   description,
@@ -18,31 +18,6 @@ const Proposal: FC<ProposalProps> = ({
   endTime,
 }) => {
   return (
-    // <div className="w-full flex flex-col justify-start p-4 gap-2 bg-slate-100 rounded-lg border border-slate-300 hover:cursor-pointer hover:border-slate-400 hover:shadow-lg">
-    //   <div className="">
-    //     <p>#{id}</p>
-    //   </div>
-    //   <div className="flex gap-2">
-    //     <p className="font-bold">Proposal title:</p>
-    //     <p>{title}</p>
-    //   </div>
-    //   <div className="flex gap-2">
-    //     <p className="font-bold">Proposal description:</p>
-    //     <p>{description}</p>
-    //   </div>
-    //   <div className="flex gap-2">
-    //     <p className="font-bold">Votes for:</p>
-    //     <p>{votesFor}</p>
-    //   </div>
-    //   <div className="flex gap-2">
-    //     <p className="font-bold">Votes against:</p>
-    //     <p>{votesAgainst}</p>
-    //   </div>
-    //   <div className="flex gap-2">
-    //     <p className="font-bold">Voting end time:</p>
-    //     <p>{endTime}</p>
-    //   </div>
-    // </div>
     <div className="w-full h-[250px] flex flex-col justify-between p-4 gap-2 bg-gray-100 rounded-2xl hover:cursor-pointer hover:shadow-lg">
       <div className="flex flex-col gap-2 text-2xl">
         <div className="flex items-center gap-2">
@@ -67,4 +42,4 @@ const Proposal: FC<ProposalProps> = ({
   );
 };
 
-export default Proposal;
+export default ProposalCard;

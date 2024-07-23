@@ -6,19 +6,10 @@ import { Contract, getDefaultProvider } from "ethers";
 
 import { contractAddress, contractABI } from "../contract/config";
 import { useContract } from "../store/contract";
-import Proposal from "@/components/Proposal";
+import ProposalCard, { Proposal } from "@/components/ProposalCard";
 import ProposalWithId from "@/components/ProposalWithId";
 
 import mockedProposals from "../utils/mocked-proposals";
-
-type Proposal = {
-  id: number;
-  title: string;
-  description: string;
-  votesFor: number;
-  votesAgainst: number;
-  endTime: number;
-};
 
 export default function Home() {
   const router = useRouter();
@@ -99,7 +90,7 @@ export default function Home() {
                     key={id}
                     onClick={() => handleClick(id)}
                   >
-                    <Proposal
+                    <ProposalCard
                       id={id}
                       title={title}
                       description={description}
