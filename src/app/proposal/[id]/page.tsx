@@ -25,6 +25,7 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
   const { metamaskProviderInstance, setMetamaskProviderInstance } =
     useContract();
   const [votingInstance, setVotingInstance] = useState<any>(null);
+  const [txFailedReason, setTxFailedReason] = useState<any>(null);
   const [account, setAccount] = useState<string>("");
 
   useEffect(() => {
@@ -60,10 +61,20 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
   };
 
   const handleVote = (support: boolean) => {
-    votingInstance.vote(params.id, support).then((res: any) => {
-      console.log("result", res);
-      // TODO handle user feedback
-    });
+    votingInstance
+      .vote(params.id, support)
+      .then((res: any) => {
+        console.log("result", res);
+      })
+      .catch((error: any) => {
+        let { reason } = error;
+
+        if (reason) {
+          setTxFailedReason(reason);
+        } else {
+          setTxFailedReason("Error on casting vote. Please try again");
+        }
+      });
   };
 
   return (
@@ -111,6 +122,9 @@ const ProposalPage: FC<ProposalPageProps> = ({ params }) => {
             <p>{endTime}</p>
           </div>
         </div>
+        {txFailedReason && (
+          <p className="text-red-500 text-sm font-bold">{txFailedReason}</p>
+        )}
         <Link href="/">Back</Link>
       </div>
     </div>
